@@ -1,77 +1,39 @@
-const criaNovaLinha = (nome, email) => {
-    const linhaNovoCliente = document.createElement('tr');
-    const conteudo = `
-    <td class="td" data-td>${nome}</td>
-    <td>${email}</td>
-    <td>
-        <ul class="tabela__botoes-controle">
-            <li><a href="../telas/edita_cliente.html" class="botao-simples botao-simples--editar">Editar</a></li>
-            <li><button class="botao-simples botao-simples--excluir" type="button">Excluir</button></li>
-        </ul>
-    </td>    
-    `
-    linhaNovoCliente.innerHTML = conteudo;
-    return linhaNovoCliente;
-}
-
-//Percorre o DOM
-const tabela = document.querySelector('[data-tabela]');
-
 const listaClientes = () => {
-
-    const promise = new Promise((resolve, reject) => {
-        const http = new XMLHttpRequest();
-
-        http.open('GET', 'http://localhost:3000/profile');
-
-
-
-        http.onload = () => {
-            if(http.status >= 400){
-                reject(JSON.parse(http.response));
-            } else {
-                resolve(JSON.parse(http.response));
-            }
-        }
-
-        http.send();
+    return fetch(`http://localhost:3000/profile`)
+    .then(resposta => {
+        return resposta.json();
     });
-
-    console.log(promise);
-
-    return promise;
 }
 
-listaClientes()
-.then( data => {
-    data.forEach(elemento => {
-    tabela.appendChild(criaNovaLinha(elemento.nome, elemento.email));
-    });
-})
+export const clienteService = {
+    listaClientes
+}
+
+/*
+    FETCH
+    realiza a requisição e retorna uma promise
+*/
 
 
 /*
-    Promise.all
+    CORS -> o que é?
 
-    Podemos fazer várias requisições que dependem uma da outra:
+    desinstalar browser sync
+    npm install -g browser-sync
+    npm uninstall -g browser-sync
+*/
 
-    Ex:
+/*
+    - PILHA DE EXECUÇÃO
+    - PILHA DE MEMÓRIA
+    - MOTOR JS
 
-    movePersonagem(‘100’, ‘Esquerda’)
-    .then(() => movePersonagem(‘800’, ‘Direita’))
-    .then(() => movePersonagem(‘200’, ‘Esquerda’))
-    .then(() => movePersonagem(‘10’, ‘Direita’ ))
-    .then(() => movePersonagem(‘60’, ‘Esquerda’ ))
+    - Fila de Promises
 
-    é o mesmo que
+    WEB API (é executado após os códigos JS na fila de execução)
 
-    Promise.all([
-        movePersonagem(‘100’, ‘Esquerda’),
-        movePersonagem(‘800’, ‘Direita’),
-        movePersonagem(‘200’, ‘Esquerda’),
-        movePersonagem(10, ‘Esquerda’),
-        movePersonagem(‘60’, ‘Esquerda’)
-    ])
-    .then(...)
+    - Fila de funções da Web API
 
+    http://latentflip.com/loupe/?code=JC5vbignYnV0dG9uJywgJ2NsaWNrJywgZnVuY3Rpb24gb25DbGljaygpIHsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gdGltZXIoKSB7CiAgICAgICAgY29uc29sZS5sb2coJ1lvdSBjbGlja2VkIHRoZSBidXR0b24hJyk7ICAgIAogICAgfSwgMjAwMCk7Cn0pOwoKY29uc29sZS5sb2coIkhpISIpOwoKc2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coIkNsaWNrIHRoZSBidXR0b24hIik7Cn0sIDUwMDApOwoKY29uc29sZS5sb2coIldlbGNvbWUgdG8gbG91cGUuIik7!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D
+    
 */
