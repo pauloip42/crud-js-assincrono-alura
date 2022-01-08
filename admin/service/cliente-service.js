@@ -5,13 +5,38 @@ const listaClientes = () => {
     });
 }
 
+
+const criaCliente = (nome, email) => {
+    return fetch(`http://localhost:3000/profile`, {
+        method: 'POST', //O método fetch(), por padrão utiliza o verbo GET. Essa linha define que queremos utilizar o POST
+        headers: { //Cabeçalho da requisição
+            'Content-Type' : 'application/json'
+        },
+        //The JSON.stringify() method converts a JavaScript object or value to a JSON string
+        body: JSON.stringify(//Corpo da requisição
+            { 
+                nome: nome,
+                email: email
+            }
+        )
+    })
+    .then( resposta => {
+        return resposta.body;
+    })
+}
+
+
 export const clienteService = {
-    listaClientes
+    listaClientes,
+    criaCliente
 }
 
 /*
     FETCH
     realiza a requisição e retorna uma promise
+    https://developer.mozilla.org/en-US/docs/Web/API/fetch
+
+    https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 */
 
 
