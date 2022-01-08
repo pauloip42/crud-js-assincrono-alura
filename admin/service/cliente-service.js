@@ -25,10 +25,17 @@ const criaCliente = (nome, email) => {
     })
 }
 
+const removeCliente = (id) => {
+    return fetch(`http://localhost:3000/profile/${id}`, {
+        method: 'DELETE'
+    })
+}
+
 
 export const clienteService = {
     listaClientes,
-    criaCliente
+    criaCliente,
+    removeCliente
 }
 
 /*
@@ -43,9 +50,15 @@ export const clienteService = {
 /*
     CORS -> o que é?
 
-    desinstalar browser sync
+    desinstalar browser sync quando terminar de estudar
     npm install -g browser-sync
     npm uninstall -g browser-sync
+
+    comando para execução do projeto (browser sync):
+    browser-sync start --server --file . --host --port 5000 --startPath admin/telas/lista_cliente.html
+
+    COMANDO PARA INICIALIZAÇÃO DO JSON SERVER (rodar na pasta admin)
+    npx json-server --watch db.json
 */
 
 /*
